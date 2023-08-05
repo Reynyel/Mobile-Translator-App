@@ -3,6 +3,7 @@ package com.example.mainactivity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -47,6 +48,26 @@ public class MainActivity extends AppCompatActivity {
 
                     // Get the source language text from the edit text
                     String sourceLang = editTxt.getText().toString();
+
+                    // Show a progress dialog while downloading the translation model
+                    ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+                    progressDialog.setMessage("Downloading translation model");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+
+                    // Downloads model if needed and dismisses the progress dialog on success or failure
+                    translator.downloadModelIfNeeded().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            progressDialog.dismiss();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                        }
+                    });
+
                     // Translate the text using the Translator instance and listen for success or failure
                     Task<String> result = translator.translate(sourceLang).addOnSuccessListener(new OnSuccessListener<String>() {
                         @Override
