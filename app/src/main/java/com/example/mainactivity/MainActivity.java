@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,10 +25,13 @@ import com.google.mlkit.nl.translate.TranslatorOptions;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private EditText editTxt;
+
+    private EditText outputTxt;
     private Button translateBtn;
 
     private Spinner langSpinner;
 
+    private String selectedLang, selectedLangCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +40,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         editTxt = findViewById(R.id.translateTxt);
         translateBtn = findViewById(R.id.translateBtn);
         langSpinner = findViewById(R.id.spinnerLang);
+        outputTxt = findViewById(R.id.outputTxt);
 
+        //Disables the output editText
+        outputTxt.setInputType(InputType.TYPE_NULL);
+
+        // Initialize spinner with supported languages
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.supported_lang, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         langSpinner.setAdapter(adapter);
 
+        // Set listener for spinner item selection
         langSpinner.setOnItemSelectedListener(this);
         translateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,14 +60,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 if(TextUtils.isEmpty(editTxt.getText().toString())){
                     Toast.makeText(MainActivity.this, "Text is empty", Toast.LENGTH_SHORT).show();
                 }else{
+                    langSpinner.getSelectedItem().toString();
+
                     // Build TranslatorOptions with the target language "tl" (Tagalog) and the source language "en" (English)
                     TranslatorOptions options = new TranslatorOptions.Builder()
-                            .setTargetLanguage("tl")
+                            .setTargetLanguage(selectedLangCode)
                             .setSourceLanguage("en").build();
-
-                    //String[] supportedLang;
-
-                    //supportedLang = new String[]{"tl", "ja", "de"};
 
                     // Create a Translator instance based on the given options
                     Translator translator = Translation.getClient(options);
@@ -88,8 +96,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Task<String> result = translator.translate(sourceLang).addOnSuccessListener(new OnSuccessListener<String>() {
                         @Override
                         public void onSuccess(String s) {
-                            // If translation is successful, display the translated text using a toast
-                            Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+                            // If translation is successful, display the translated text in the output text field
+                            outputTxt.setText(s);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -106,12 +114,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String text = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(adapterView.getContext(), text, Toast.LENGTH_SHORT);
+        // Retrieve selected language name and its corresponding code
+        selectedLang = adapterView.getItemAtPosition(i).toString();
+        selectedLangCode = getResources().getStringArray(R.array.supported_lang_codes)[i];
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
+        
     }
 }

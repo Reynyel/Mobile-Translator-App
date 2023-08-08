@@ -6,4 +6,11 @@
         <item>Japanese</item>
         <item>German</item>
     </string-array>
+
+    <string-array name="supported_lang_codes">
+        <item>tl</item>
+        <item>es</item>
+        <item>ja</item>
+        <item>de</item>
+    </string-array>
 </resources>

@@ -6,13 +6,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="50px"
         android:id="@+id/translateTxt"
+        android:backgroundTint="#4D4B4B"
+        android:textColor="#4D4B4B"
+        android:textColorHighlight="@color/black"
+        android:textColorHint="#968E8E"
         android:hint="Enter text here"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="50px"
+        android:hint="Translated Text"
+        android:backgroundTint="#4D4B4B"
+        android:textColor="#4D4B4B"
+        android:textColorHighlight="@color/black"
+        android:textColorHint="#968E8E"
+        android:id="@+id/outputTxt"
         />
 
     <Spinner
@@ -20,6 +38,11 @@
         android:layout_width="183dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:backgroundTint="#4D4B4B"
+        android:textColor="#4D4B4B"
+        android:textColorHighlight="@color/black"
+        android:textColorHint="#968E8E"
+        android:padding="50px"
         />
 
     <Button
@@ -27,6 +50,8 @@
         android:layout_width="183dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:backgroundTint="#56798C"
+        android:textColor="#FFFFFF"
         android:text="Translate" />
 
 </LinearLayout>
