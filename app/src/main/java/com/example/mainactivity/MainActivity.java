@@ -7,8 +7,11 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -18,10 +21,13 @@ import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private EditText editTxt;
     private Button translateBtn;
+
+    private Spinner langSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
         editTxt = findViewById(R.id.translateTxt);
         translateBtn = findViewById(R.id.translateBtn);
+        langSpinner = findViewById(R.id.spinnerLang);
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.supported_lang, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        langSpinner.setAdapter(adapter);
+
+        langSpinner.setOnItemSelectedListener(this);
         translateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
                     TranslatorOptions options = new TranslatorOptions.Builder()
                             .setTargetLanguage("tl")
                             .setSourceLanguage("en").build();
+
+                    //String[] supportedLang;
+
+                    //supportedLang = new String[]{"tl", "ja", "de"};
 
                     // Create a Translator instance based on the given options
                     Translator translator = Translation.getClient(options);
@@ -86,5 +102,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String text = adapterView.getItemAtPosition(i).toString();
+        Toast.makeText(adapterView.getContext(), text, Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

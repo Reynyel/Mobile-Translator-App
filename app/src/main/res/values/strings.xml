@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">MainActivity</string>
+    <string name="app_name">Translator</string>
+    <string-array name="supported_lang">
+        <item>Tagalog</item>
+        <item>Spanish</item>
+        <item>Japanese</item>
+        <item>German</item>
+    </string-array>
 </resources>

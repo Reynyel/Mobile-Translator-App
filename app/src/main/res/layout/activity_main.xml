@@ -14,11 +14,19 @@
         android:id="@+id/translateTxt"
         android:hint="Enter text here"
         />
-    <Button
-        android:layout_width="match_parent"
+
+    <Spinner
+        android:id="@+id/spinnerLang"
+        android:layout_width="183dp"
         android:layout_height="wrap_content"
-        android:text="Translate"
-        android:id="@+id/translateBtn"
+        android:layout_gravity="center"
         />
+
+    <Button
+        android:id="@+id/translateBtn"
+        android:layout_width="183dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Translate" />
 
 </LinearLayout>
